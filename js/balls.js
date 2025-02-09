@@ -45,14 +45,14 @@ export function updateBalls(dt) {
         }
         if (state.pulling) {
             for (const ball of balls) {
-                const acc = mouse.pos.sub(ball.pos).Sign();
+                const acc = mouse.pos.sub(ball.pos);
                 const factor = 0.7;
                 ball.vel.AddScaled(acc, factor * dt);
             }
         }
         if (state.pushing) {
             for (const ball of balls) {
-                const acc = ball.pos.sub(mouse.pos).Sign();
+                const acc = ball.pos.sub(mouse.pos);
                 const factor = 0.8;
                 ball.vel.AddScaled(acc, factor * dt);
             }
