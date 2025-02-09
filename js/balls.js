@@ -45,16 +45,14 @@ export function updateBalls(dt) {
         }
         if (state.pulling) {
             for (const ball of balls) {
-                const acc = mouse.pos.sub(ball.pos);
-                acc.div(acc.len());
+                const acc = mouse.pos.sub(ball.pos).Sign();
                 const factor = 0.7;
                 ball.vel.AddScaled(acc, factor * dt);
             }
         }
         if (state.pushing) {
             for (const ball of balls) {
-                const acc = ball.pos.sub(mouse.pos);
-                acc.div(acc.len());
+                const acc = ball.pos.sub(mouse.pos).Sign();
                 const factor = 0.8;
                 ball.vel.AddScaled(acc, factor * dt);
             }
@@ -75,7 +73,7 @@ export function updateBalls(dt) {
         assert(dists != null);
         for (let i = 0; i < dists.length; i++) {
             // constrain position
-            const n = balls[i].pos.sub(mouse.pos).Normalize();
+            const n = balls[i].pos.sub(mouse.pos).Sign();
             balls[i].pos.Copy(n.mul(dists[i]).Add(mouse.pos));
 
             // constrain velocity
@@ -239,7 +237,7 @@ keys.registerKeydown(code => {
     state.pulling = false;
     if (!state.fixed) {
         for (const ball of balls) {
-            const n = ball.pos.sub(mouse.pos).Normalize();
+            const n = ball.pos.sub(mouse.pos).Sign();
             ball.vel.Lerp(n.Mul(50), 0.5);
         }
     }
